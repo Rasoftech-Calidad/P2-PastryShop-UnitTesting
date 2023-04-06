@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PastryShopAPI", "PastryShopAPI\PastryShopAPI.csproj", "{121A1B51-D408-47E1-8EC4-5C1D899A07DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PastryShopAPI", "PastryShopAPI\PastryShopAPI.csproj", "{121A1B51-D408-47E1-8EC4-5C1D899A07DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTesting", "UnitTesting\UnitTesting.csproj", "{204ED12B-0625-4996-86DE-CBBB1D6184AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{121A1B51-D408-47E1-8EC4-5C1D899A07DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{121A1B51-D408-47E1-8EC4-5C1D899A07DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{121A1B51-D408-47E1-8EC4-5C1D899A07DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{204ED12B-0625-4996-86DE-CBBB1D6184AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{204ED12B-0625-4996-86DE-CBBB1D6184AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{204ED12B-0625-4996-86DE-CBBB1D6184AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{204ED12B-0625-4996-86DE-CBBB1D6184AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
