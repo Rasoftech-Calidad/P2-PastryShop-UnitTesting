@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <Folder Include="ControllersTest\" />
-    <Folder Include="ModelsTest\" />
     <Folder Include="DataTest\" />
     <Folder Include="ExceptionsTest\" />
     <Folder Include="MigrationsTest\" />
