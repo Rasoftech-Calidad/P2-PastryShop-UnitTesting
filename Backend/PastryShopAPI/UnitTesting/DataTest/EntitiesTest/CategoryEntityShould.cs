@@ -41,5 +41,39 @@ namespace UnitTesting.DataTest.EntitiesTest
             //Assert.Equal(product.Name, name);
             Assert.Contains(getValue, category.Name);
         }
+
+        [Fact]
+        public void ValidateDescription()
+        {
+            //Arrange
+            CategoryEntity category = new CategoryEntity();
+            category.Description = "Sabores a eleccion con almendras de coco";
+
+            //Act
+            var getValue = category.Description;
+
+            //Assert
+            Assert.IsType<string>(getValue);
+            //Assert.Contains("Sabores a eleccion con almendras de coco", getValue);
+        }
+
+        [Fact]
+        public void ValidateImagePath()
+        {
+            //Arrange
+            CategoryEntity category = new CategoryEntity();
+            category.ImagePath = "E:\\UCB - INGENIERIA EN SISTEMAS\\Semestre 1 - 2023\\Gestion de Calidad de Sistemas\\P2-PastryShop-UnitTesting\\Backend\\PastryShopAPI\\PastryShopAPI\\Resources\\Images\\0b43ff83-fdd9-49f7-8b19-9b4ed406925f.png";
+
+            //Act
+            var listExtencionImage = new List<string>() { ".png" };
+
+            //Assert
+            //Assert.Contains(".png", product.ImagePath);
+            foreach (string extencion in listExtencionImage)
+            {
+                Assert.Contains(extencion, category.ImagePath);
+            }
+            //Assert.IsType<string>(product.ImagePath);
+        }
     }
 }
