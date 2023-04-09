@@ -11,7 +11,7 @@ namespace UnitTesting.ModelsTest
     {
         [Theory]
         [InlineData("valid@valid.com", "validpassword")]
-        public void CreateModel_WithValidData_ReturnValidObject(string email, string password)
+        public void CreatingLoginModel_WithValidData_ReturnsValidObject(string email, string password)
         {
             // Arrange
             // Act

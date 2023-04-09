@@ -6,7 +6,7 @@ namespace UnitTesting.ModelsTest
     {
         [Theory]
         [InlineData("valid@valid.com", "validpassword", "validpassword")]
-        public void CreateRegisterModel_WithValidData_ReturnsValidObject(string email, string password, string confirmpassword)
+        public void CreatingRegisterModel_WithValidData_ReturnsValidObject(string email, string password, string confirmpassword)
         {
             // Arrange
             // Act
