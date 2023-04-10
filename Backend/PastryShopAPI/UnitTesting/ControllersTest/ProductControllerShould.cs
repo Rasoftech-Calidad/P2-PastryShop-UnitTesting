@@ -34,13 +34,50 @@ namespace UnitTesting.ControllersTest
             // Act
             productServiceMock.Setup(r => r.GetProductAsync(categoryId, productId)).ReturnsAsync(productModel);
             var productController = new ProductsController(productServiceMock.Object, fileServiceMock.Object);
-            var response = productController.GetProductAsync(1, 1);
+            var response = productController.GetProductAsync(categoryId, productId);
             var result = response.Result as OkObjectResult;
 
             // Assert
             Assert.NotNull(result);
             Assert.Equal(200, result.StatusCode);
         }
-        
+        [Fact]
+        public async Task Add_products_ReturnSameProducts()
+        {
+            // Arrange
+            var productModel1 = new ProductModel()
+            {
+                Id = 1,
+                Name = "Tortas",
+                Description = "Tortas de todos los sabores",
+                ImageUrl = "https://www.paulinacocina.net/wp-content/uploads/2022/04/selva-negra-receta-1.jpg",
+                Rating = 5,
+            };
+            var productModel2 = new ProductModel()
+            {
+                Id = 2,
+                Name = "Panes",
+                Description = "Panes de todos los sabores",
+                ImageUrl = "https://www.paulinacocina.net/wp-content/uploads/2022/04/selva-negra-receta-1.jpg",
+                Rating = 5,
+            };
+
+            var enumerable = new List<ProductModel>() { productModel1, productModel2 } as IEnumerable<ProductModel>;
+            int categoryId = 1;
+            var productServiceMock = new Mock<IProductsService>();
+            var fileServiceMock = new Mock<IFileService>();
+
+            // Act
+            productServiceMock.Setup(r => r.GetProductsAsync(categoryId)).ReturnsAsync(enumerable);
+            var productController = new ProductsController(productServiceMock.Object, fileServiceMock.Object);
+            var response = await productController.GetProductsAsync(categoryId);
+            var result = (OkObjectResult)response.Result;
+            var productsList = result.Value as List<ProductModel>;
+            var countProductsList = productsList.Count();
+
+            // Assert
+            Assert.Equal(2, countProductsList);
+            Assert.Equal(200, result.StatusCode);
+        }
     }
 }
