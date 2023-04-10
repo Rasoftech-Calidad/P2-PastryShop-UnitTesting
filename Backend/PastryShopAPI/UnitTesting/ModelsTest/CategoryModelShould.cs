@@ -75,5 +75,24 @@ namespace UnitTesting.ModelsTest
             }*/
             //Assert.IsType<string>(category.ImageUrl);
         }
+
+        [Fact]
+        public void ValidateImagePath()
+        {
+            //Arrange
+            CategoryModel category = new CategoryModel();
+            category.ImagePath = "E:\\UCB - INGENIERIA EN SISTEMAS\\Semestre 1 - 2023\\Gestion de Calidad de Sistemas\\P2-PastryShop-UnitTesting\\Backend\\PastryShopAPI\\PastryShopAPI\\Resources\\Images\\fbacdad1-ae8b-4ce4-9259-4d3cc4a93e05.jpg";
+
+            //Act
+            var listExtencionImage = new List<string>() { ".jpg" };
+
+            //Assert
+            Assert.Contains(".jpg", category.ImagePath);
+            /*foreach (string extencion in listExtencionImage)
+            {
+                Assert.Contains(extencion, category.ImagePath);
+            }*/
+            //Assert.IsType<string>(category.ImagePath);
+        }
     }
 }
