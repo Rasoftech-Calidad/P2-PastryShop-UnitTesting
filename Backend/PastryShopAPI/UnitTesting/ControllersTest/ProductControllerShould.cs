@@ -190,5 +190,84 @@ namespace UnitTesting.ControllersTest
             // Assert
             Assert.Equal(200, result.StatusCode);
         }
+        [Fact]
+        public async Task CreateProduct_AddProduct_UpdateSameProduct()
+        {
+            //Arrange
+            var productFormModel = new ProductFormModel()
+            {
+                Id = 1,
+                Name = "Tortas",
+                Description = "Tortas de todos los sabores",
+                ImageUrl = "https://www.paulinacocina.net/wp-content/uploads/2022/04/selva-negra-receta-1.jpg",
+                Rating = 5,
+            };
+            var newProductModel = new ProductModel()
+            {
+                Name = "Pasteles",
+                Description = "Tortas de todos los sabores",
+                ImageUrl = "https://www.paulinacocina.net/wp-content/uploads/2022/04/selva-negra-receta-1.jpg",
+                Rating = 5,
+            };
+            int categoryId = 1;
+            int productId = 1;
+            var productServiceMock = new Mock<IProductsService>();
+            var fileServiceMock = new Mock<IFileService>();
+
+            // Act
+            productServiceMock.Setup(r => r.CreateProductAsync(categoryId, productFormModel)).ReturnsAsync(new ProductModel()
+            {
+                Id = 1,
+                Name = "Tortas",
+                Description = "Tortas de todos los sabores",
+                ImageUrl = "https://www.paulinacocina.net/wp-content/uploads/2022/04/selva-negra-receta-1.jpg",
+                Rating = 5,
+            });
+            var productController = new ProductsController(productServiceMock.Object, fileServiceMock.Object);
+            var response = await productController.UpdateProductAsync(categoryId, productId, newProductModel);
+            var result = response.Result as OkObjectResult;
+            var productCreated = result.Value as ProductModel;
+
+            // Assert
+            Assert.Equal(200, result.StatusCode);
+        }
+        [Fact]
+        public async Task Add_products_ReturnAllProducts()
+        {
+            // Arrange
+            var productModel1 = new ProductModel()
+            {
+                Id = 1,
+                Name = "Tortas",
+                Description = "Tortas de todos los sabores",
+                ImageUrl = "https://www.paulinacocina.net/wp-content/uploads/2022/04/selva-negra-receta-1.jpg",
+                Rating = 5,
+            };
+            var productModel2 = new ProductModel()
+            {
+                Id = 2,
+                Name = "Panes",
+                Description = "Panes de todos los sabores",
+                ImageUrl = "https://www.paulinacocina.net/wp-content/uploads/2022/04/selva-negra-receta-1.jpg",
+                Rating = 5,
+            };
+
+            var enumerable = new List<ProductModel>() { productModel1, productModel2 } as IEnumerable<ProductModel>;
+            int categoryId = 1;
+            var productServiceMock = new Mock<IProductsService>();
+            var fileServiceMock = new Mock<IFileService>();
+
+            // Act
+            productServiceMock.Setup(r => r.GetAllProductsAsync(categoryId)).ReturnsAsync(enumerable);
+            var productController = new ProductsController(productServiceMock.Object, fileServiceMock.Object);
+            var response = await productController.GetAllProductsAsync(categoryId);
+            var result = (OkObjectResult)response.Result;
+            var productsList = result.Value as List<ProductModel>;
+            var countProductsList = productsList.Count();
+
+            // Assert
+            Assert.Equal(2, countProductsList);
+            Assert.Equal(200, result.StatusCode);
+        }
     }
 }
