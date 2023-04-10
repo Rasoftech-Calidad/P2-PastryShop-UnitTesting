@@ -80,7 +80,7 @@ namespace UnitTesting.ControllersTest
             Assert.Equal(200, result.StatusCode);
         }
         [Fact]
-        public async Task CreateProduct_AddProduct_ReturnSameProducts()
+        public async Task CreateProduct_AddProduct_ReturnSameProduct()
         {
             //Arrange
             var productFormModel = new ProductFormModel()
@@ -116,7 +116,7 @@ namespace UnitTesting.ControllersTest
             Assert.Equal(201, result.StatusCode);
         }
         [Fact]
-        public async Task CreateProduct_AddProduct_DeleteSameProducts()
+        public async Task CreateProduct_AddProduct_DeleteSameProduct()
         {
             //Arrange
             var productFormModel = new ProductFormModel()
@@ -145,6 +145,47 @@ namespace UnitTesting.ControllersTest
             var productController = new ProductsController(productServiceMock.Object, fileServiceMock.Object);
             var response = await productController.DeleteProductAsync(categoryId,productId);
             var result = response.Result as OkObjectResult;
+
+            // Assert
+            Assert.Equal(200, result.StatusCode);
+        }
+        [Fact]
+        public async Task CreateProductForm_AddProductForm_UpdateSameProduct()
+        {
+            //Arrange
+            var productFormModel = new ProductFormModel()
+            {
+                Id = 1,
+                Name = "Tortas",
+                Description = "Tortas de todos los sabores",
+                ImageUrl = "https://www.paulinacocina.net/wp-content/uploads/2022/04/selva-negra-receta-1.jpg",
+                Rating = 5,
+            };
+            var newProductFormModel = new ProductFormModel()
+            {
+                Name = "Pasteles",
+                Description = "Tortas de todos los sabores",
+                ImageUrl = "https://www.paulinacocina.net/wp-content/uploads/2022/04/selva-negra-receta-1.jpg",
+                Rating = 5,
+            };
+            int categoryId = 1;
+            int productId = 1;
+            var productServiceMock = new Mock<IProductsService>();
+            var fileServiceMock = new Mock<IFileService>();
+
+            // Act
+            productServiceMock.Setup(r => r.CreateProductAsync(categoryId, productFormModel)).ReturnsAsync(new ProductModel()
+            {
+                Id = 1,
+                Name = "Tortas",
+                Description = "Tortas de todos los sabores",
+                ImageUrl = "https://www.paulinacocina.net/wp-content/uploads/2022/04/selva-negra-receta-1.jpg",
+                Rating = 5,
+            });
+            var productController = new ProductsController(productServiceMock.Object, fileServiceMock.Object);
+            var response = await productController.UpdateProductFormAsync(categoryId, productId, newProductFormModel);
+            var result = response.Result as OkObjectResult;
+            var productCreated = result.Value as ProductModel;
 
             // Assert
             Assert.Equal(200, result.StatusCode);
