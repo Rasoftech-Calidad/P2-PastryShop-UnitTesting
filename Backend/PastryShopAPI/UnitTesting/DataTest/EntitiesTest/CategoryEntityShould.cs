@@ -58,6 +58,25 @@ namespace UnitTesting.DataTest.EntitiesTest
         }
 
         [Fact]
+        public void ValidateImageUrl()
+        {
+            //Arrange
+            CategoryEntity category = new CategoryEntity();
+            category.ImageUrl = "https://www.ferrerorocher.com/es/sites/ferrerorocher20_es/files/2021-05/birthday-cake_0.jpeg?t=1680082364";
+
+            //Act
+            var listExtencionImage = new List<string>() { ".jpeg" };
+
+            //Assert
+            //Assert.Contains(".jpeg", product.ImageUrl);
+            foreach (string extencion in listExtencionImage)
+            {
+                Assert.Contains(extencion, category.ImageUrl);
+            }
+            //Assert.IsType<string>(product.ImageUrl);
+        }
+
+        [Fact]
         public void ValidateImagePath()
         {
             //Arrange

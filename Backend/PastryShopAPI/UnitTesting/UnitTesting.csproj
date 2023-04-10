@@ -27,12 +27,4 @@
     <ProjectReference Include="..\PastryShopAPI\PastryShopAPI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ControllersTest\" />
-    <Folder Include="ExceptionsTest\" />
-    <Folder Include="MigrationsTest\" />
-    <Folder Include="OthersTest\" />
-    <Folder Include="ServicesTest\" />
-  </ItemGroup>
-
 </Project>
