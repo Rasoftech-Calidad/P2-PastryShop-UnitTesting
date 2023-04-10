@@ -79,5 +79,41 @@ namespace UnitTesting.ControllersTest
             Assert.Equal(2, countProductsList);
             Assert.Equal(200, result.StatusCode);
         }
+        [Fact]
+        public async Task CreateProduct_AddProduct_ReturnSameProducts()
+        {
+            //Arrange
+            var productFormModel = new ProductFormModel()
+            {
+                Id = 1,
+                Name = "Tortas",
+                Description = "Tortas de todos los sabores",
+                ImageUrl = "https://www.paulinacocina.net/wp-content/uploads/2022/04/selva-negra-receta-1.jpg",
+                Rating = 5,
+            };
+
+            int categoryId = 1;
+            var productServiceMock = new Mock<IProductsService>();
+            var fileServiceMock = new Mock<IFileService>();
+
+            // Act
+            productServiceMock.Setup(r => r.CreateProductAsync(categoryId, productFormModel)).ReturnsAsync(new ProductModel()
+            {
+                Id = 1,
+                Name = "Tortas",
+                Description = "Tortas de todos los sabores",
+                ImageUrl = "https://www.paulinacocina.net/wp-content/uploads/2022/04/selva-negra-receta-1.jpg",
+                Rating = 5,
+            });
+            var productController = new ProductsController(productServiceMock.Object, fileServiceMock.Object);
+            var response = await productController.CreateProductFormAsync(categoryId, productFormModel);
+            var status = response.Result as CreatedResult;
+            var productCreated = status.Value as ProductModel;
+
+            // Assert
+            Assert.Equal(1, productCreated.Id);
+            Assert.Equal("Tortas", productCreated.Name);
+            Assert.Equal(201, status.StatusCode);
+        }
     }
 }
