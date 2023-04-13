@@ -47,5 +47,25 @@ namespace UnitTesting.ModelsTest
             // Assert
             Assert.False(isSuccess);
         }
+
+        [Fact]
+        public void SetErrorsList_WithValidData_ReturnsCompleteErrorList()
+        {
+            // Arrange
+            var errors = new List<string>();
+            // Act
+            errors.Add("Product not in this combo");
+            errors.Add("product is null");
+            _userManagerResponse.Errors = errors;
+            var expected = errors;
+            var actual = _userManagerResponse.Errors;
+            var countActual = actual.Count();
+            var countExpected = expected.Count();
+            // Assert
+            Assert.StrictEqual(expected, actual);
+            Assert.Equal(expected, actual);
+            Assert.Equal(countExpected, countActual);
+        }
+
     }
 }
