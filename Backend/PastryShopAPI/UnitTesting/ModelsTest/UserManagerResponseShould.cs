@@ -69,5 +69,20 @@ namespace UnitTesting.ModelsTest
             Assert.Equal(countExpected, countActual);
         }
 
+        [Fact]
+        public void SetExpireDate_WithValidData_ReturnsSameExpireDate()
+        {
+            // Arrange
+            var year = 2025;
+            var month = 9;
+            var day = 30;
+            var expectedExpireDate = new DateTime(year, month, day);
+            // Act
+            _userManagerResponse.ExpireDate= expectedExpireDate;
+            var actualExpireDate = _userManagerResponse.ExpireDate;
+            // Assert
+            Assert.Equal(expectedExpireDate, actualExpireDate);
+        }
+
     }
 }
