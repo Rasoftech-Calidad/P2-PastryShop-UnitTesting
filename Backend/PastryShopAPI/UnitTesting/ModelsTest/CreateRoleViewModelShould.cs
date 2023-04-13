@@ -27,6 +27,18 @@ namespace UnitTesting.ModelsTest
             // Assert
             Assert.Equal(name, _createRoleModel.Name);
         }
-        
+
+        [Fact]
+        public void SetNormalizedName_WithValidData_ReturnsValidNormalizedName()
+        {
+            // Arrange
+            string normalizedName = "NormalizedName";
+
+            // Act
+            _createRoleModel.NormalizedName = normalizedName;
+
+            // Assert
+            Assert.Equal(normalizedName, _createRoleModel.NormalizedName);
+        }
     }
 }
