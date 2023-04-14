@@ -11,31 +11,46 @@ namespace UnitTesting.DataTest.EntitiesTest
     {
 
         [Fact]
-        public void ValidateComboEntity_SetId()
+        public void ValidateProductComboEntity_SetId()
         {
             //Arrange
-            var product = new Product_ComboEntity
+            var productCombo = new Product_ComboEntity
             {
                 Id = 1,
             };
 
             //Act
-            var getValue = product.Id;
+            var getValue = productCombo.Id;
 
             //Assert
             Assert.Equal(1, getValue);
         }
         [Fact]
-        public void ValidateComboEntity_SetProductId()
+        public void ValidateProductComboEntity_SetProductId()
         {
             //Arrange
-            var product = new Product_ComboEntity
+            var productCombo = new Product_ComboEntity
             {
                 ProductId = 1,
             };
 
             //Act
-            var getValue = product.ProductId;
+            var getValue = productCombo.ProductId;
+
+            //Assert
+            Assert.Equal(1, getValue);
+        }
+        [Fact]
+        public void ValidateProductComboEntity_SetComboId()
+        {
+            //Arrange
+            var productCombo = new Product_ComboEntity
+            {
+                ComboId = 1,
+            };
+
+            //Act
+            var getValue = productCombo.ComboId;
 
             //Assert
             Assert.Equal(1, getValue);
