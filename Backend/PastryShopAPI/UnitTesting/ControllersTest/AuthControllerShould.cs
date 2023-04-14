@@ -84,5 +84,31 @@ namespace UnitTesting.ControllersTest
             Assert.False(actualValue?.IsSuccess);
         }
 
+        [Fact]
+        public async Task RegisterAsync_InvalidUserData_ReturnsUnSuccessfullUserResponse()
+        {
+            // Arrange
+            var userResponse = "Some properties are not valid";
+            var expectedStatusCode = 400;
+            var newUser = new RegisterViewModel()
+            {
+                Email = "bademail",
+                Password = "bad",
+                ConfirmPassword = "bad",
+            };
+            _authController = new AuthController(_userService.Object);
+
+            // Act
+            _authController.ModelState.AddModelError("IsInvalid", "error");
+            var registerResponse = await _authController.RegisterAsync(newUser);
+            var actualResponse = registerResponse as BadRequestObjectResult;
+            var actualStatusCode = actualResponse?.StatusCode;
+            var actualValue = actualResponse?.Value;
+
+            // Assert
+            Assert.Equal(expectedStatusCode, actualStatusCode);
+            Assert.Equal(userResponse, actualValue);
+        }
+
     }
 }
