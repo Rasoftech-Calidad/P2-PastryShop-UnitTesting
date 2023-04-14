@@ -27,4 +27,8 @@
     <ProjectReference Include="..\PastryShopAPI\PastryShopAPI.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ModelsTest\CombosTest\" />
+  </ItemGroup>
+
 </Project>
