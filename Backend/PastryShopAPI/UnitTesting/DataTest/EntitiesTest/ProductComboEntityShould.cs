@@ -71,5 +71,21 @@ namespace UnitTesting.DataTest.EntitiesTest
             //Assert
             Assert.Equal(product, productCombo.Product);
         }
+        [Fact]
+        public void ValidateProductComboEntity_SetCombo()
+        {
+            //Arrange
+            var combo = new ComboEntity
+            {
+                Id = 1
+            };
+            var productCombo = new Product_ComboEntity
+            {
+                Combo = combo
+            };
+
+            //Assert
+            Assert.Equal(combo, productCombo.Combo);
+        }
     }
 }
