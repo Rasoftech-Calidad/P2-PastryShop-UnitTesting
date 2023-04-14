@@ -279,7 +279,90 @@ namespace UnitTesting.ControllersTest
             Assert.Equal(userResponse, actualValue);
         }
 
+        // LOGIN USER
+        [Fact]
+        public async Task LoginAsync_WithValidData_ReturnsSuccessfullUserResponse()
+        {
+            // Arrange
+            var userResponse = new UserManagerResponse()
+            {
+                Message = "Login-Token-String",
+                IsSuccess = true,
+                ExpireDate = new DateTime(2023, 4, 14),
+            };
+            var existingUser = new LoginViewModel()
+            {
+                Email = "validemail@gmail.com",
+                Password = "validpassword000",
+            };
+            var expectedStatusCode = 200;
+            _userService.Setup(r => r.LoginUserAsync(existingUser)).ReturnsAsync(userResponse);
+            _authController = new AuthController(_userService.Object);
 
+            // Act
+            var createRoleResponse = await _authController.LoginAsync(existingUser);
+            var actualResponse = createRoleResponse as OkObjectResult;
+            var actualStatusCode = actualResponse?.StatusCode;
+            var actualValue = actualResponse?.Value as UserManagerResponse;
+
+            // Assert
+            Assert.Equal(expectedStatusCode, actualStatusCode);
+            Assert.Equal(userResponse.Message, actualValue?.Message);
+            Assert.True(actualValue?.IsSuccess);
+        }
+
+        [Theory]
+        [InlineData("There is no user with that Email address", false, "unknownemail@gmail.com", "some_password000")]
+        [InlineData("Invalid password", false, "goodemail@gmail.com", "incorrect_password")]
+        public async Task LoginAsync_WithWrongCredentials_ReturnsUnSuccessfullUserResponse(string message, bool isSuccess, string email, string password)
+        {
+            // Arrange
+            var userResponse = new UserManagerResponse()
+            {
+                Message = message,
+                IsSuccess = isSuccess,
+            };
+            var unknownUser = new LoginViewModel()
+            {
+                Email = email,
+                Password = password,
+            };
+            var expectedStatusCode = 400;
+            _userService.Setup(r => r.LoginUserAsync(unknownUser)).ReturnsAsync(userResponse);
+            _authController = new AuthController(_userService.Object);
+
+            // Act
+            var createRoleResponse = await _authController.LoginAsync(unknownUser);
+            var actualResponse = createRoleResponse as BadRequestObjectResult;
+            var actualStatusCode = actualResponse?.StatusCode;
+            var actualValue = actualResponse?.Value as UserManagerResponse;
+
+            // Assert
+            Assert.Equal(expectedStatusCode, actualStatusCode);
+            Assert.Equal(userResponse.Message, actualValue?.Message);
+            Assert.False(actualValue?.IsSuccess);
+        }
+
+        [Fact]
+        public async Task LoginAsync_WithInvalidLoginData_ReturnsBadRequestErrorMessage()
+        {
+            // Arrange
+            var userResponse = "Some properties are not valid";
+            var expectedStatusCode = 400;
+            var loginUser = new LoginViewModel();
+            _authController = new AuthController(_userService.Object);
+
+            // Act
+            _authController.ModelState.AddModelError("Empty Properties", "error");
+            var registerResponse = await _authController.LoginAsync(loginUser);
+            var actualResponse = registerResponse as BadRequestObjectResult;
+            var actualStatusCode = actualResponse?.StatusCode;
+            var actualValue = actualResponse?.Value;
+
+            // Assert
+            Assert.Equal(expectedStatusCode, actualStatusCode);
+            Assert.Equal(userResponse, actualValue);
+        }
 
     }
 }
