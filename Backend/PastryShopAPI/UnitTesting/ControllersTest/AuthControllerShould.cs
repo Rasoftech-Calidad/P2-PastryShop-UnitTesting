@@ -20,6 +20,7 @@ namespace UnitTesting.ControllersTest
             _userService = new Mock<IUserService>();
         }
 
+
         // REGISTER USER
         [Fact]
         public async Task RegisterAsync_WithValidData_ReturnsSuccessfullUserResponse()
@@ -51,7 +52,6 @@ namespace UnitTesting.ControllersTest
             Assert.Equal(userResponse.Message, actualValue?.Message);
             Assert.True(actualValue?.IsSuccess);
         }
-
 
         [Fact]
         public async Task RegisterAsync_WithUnMatchingPasswords_ReturnsUnSuccessfullUserResponse()
@@ -109,6 +109,90 @@ namespace UnitTesting.ControllersTest
             Assert.Equal(expectedStatusCode, actualStatusCode);
             Assert.Equal(userResponse, actualValue);
         }
+
+
+        // CREATE ROLE
+        [Fact]
+        public async Task CreateRoleAsync_WithValidData_ReturnsSuccessfullUserResponse()
+        {
+            // Arrange
+            var userResponse = new UserManagerResponse()
+            {
+                Message = "Role created succesfully!",
+                IsSuccess = true,
+            };
+            var newRole = new CreateRoleViewModel()
+            {
+                Name = "Admin",
+                NormalizedName = "ADMIN",
+            };
+            var expectedStatusCode = 200;
+            _userService.Setup(r => r.CreateRoleAsync(newRole)).ReturnsAsync(userResponse);
+            _authController = new AuthController(_userService.Object);
+
+            // Act
+            var createRoleResponse = await _authController.CreateRolenAsync(newRole);
+            var actualResponse = createRoleResponse as OkObjectResult;
+            var actualStatusCode = actualResponse?.StatusCode;
+            var actualValue = actualResponse?.Value as UserManagerResponse;
+
+            // Assert
+            Assert.Equal(expectedStatusCode, actualStatusCode);
+            Assert.Equal(userResponse.Message, actualValue?.Message);
+            Assert.True(actualValue?.IsSuccess);
+        }
+
+        [Fact]
+        public async Task CreateRoleAsync_WithUnmatchinNames_ReturnsUnSuccessfullUserResponse()
+        {
+            // Arrange
+            var userResponse = new UserManagerResponse()
+            {
+                Message = "Role did not create",
+                IsSuccess = false,
+            };
+            var newRole = new CreateRoleViewModel()
+            {
+                Name = "Admin",
+                NormalizedName = "NOT ADMIN",
+            };
+            var expectedStatusCode = 400;
+            _userService.Setup(r => r.CreateRoleAsync(newRole)).ReturnsAsync(userResponse);
+            _authController = new AuthController(_userService.Object);
+
+            // Act
+            var createRoleResponse = await _authController.CreateRolenAsync(newRole);
+            var actualResponse = createRoleResponse as BadRequestObjectResult;
+            var actualStatusCode = actualResponse?.StatusCode;
+            var actualValue = actualResponse?.Value as UserManagerResponse;
+
+            // Assert
+            Assert.Equal(expectedStatusCode, actualStatusCode);
+            Assert.Equal(userResponse.Message, actualValue?.Message);
+            Assert.False(actualValue?.IsSuccess);
+        }
+
+        [Fact]
+        public async Task CreateRoleAsync_InvalidRoleData_ReturnsBadRequestErrorMessage()
+        {
+            // Arrange
+            var userResponse = "Some properties are not valid";
+            var expectedStatusCode = 400;
+            var newRole = new CreateRoleViewModel();
+            _authController = new AuthController(_userService.Object);
+
+            // Act
+            _authController.ModelState.AddModelError("Empty Properties", "error");
+            var registerResponse = await _authController.CreateRolenAsync(newRole);
+            var actualResponse = registerResponse as BadRequestObjectResult;
+            var actualStatusCode = actualResponse?.StatusCode;
+            var actualValue = actualResponse?.Value;
+
+            // Assert
+            Assert.Equal(expectedStatusCode, actualStatusCode);
+            Assert.Equal(userResponse, actualValue);
+        }
+
 
     }
 }
