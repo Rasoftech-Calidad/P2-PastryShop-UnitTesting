@@ -1,7 +1,7 @@
 ﻿using PastryShopAPI.Models.Security;
 
 
-namespace UnitTesting.ModelsTest
+namespace UnitTesting.ModelsTest.AuthTest
 {
     public class UserManagerResponseShould
     {
@@ -62,7 +62,7 @@ namespace UnitTesting.ModelsTest
             var actual = _userManagerResponse.Errors;
             var countActual = actual.Count();
             var countExpected = expected.Count();
-            
+
             // Assert
             Assert.StrictEqual(expected, actual);
             Assert.Equal(expected, actual);
@@ -78,7 +78,7 @@ namespace UnitTesting.ModelsTest
             var day = 30;
             var expectedExpireDate = new DateTime(year, month, day);
             // Act
-            _userManagerResponse.ExpireDate= expectedExpireDate;
+            _userManagerResponse.ExpireDate = expectedExpireDate;
             var actualExpireDate = _userManagerResponse.ExpireDate;
             // Assert
             Assert.Equal(expectedExpireDate, actualExpireDate);

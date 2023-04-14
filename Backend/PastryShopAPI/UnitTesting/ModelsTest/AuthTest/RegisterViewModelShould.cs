@@ -1,6 +1,6 @@
 ﻿using PastryShopAPI.Models.Security;
 
-namespace UnitTesting.ModelsTest
+namespace UnitTesting.ModelsTest.AuthTest
 {
     public class RegisterViewModelShould
     {

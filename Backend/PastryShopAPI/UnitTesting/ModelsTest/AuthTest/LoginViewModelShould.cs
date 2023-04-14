@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UnitTesting.ModelsTest
+namespace UnitTesting.ModelsTest.AuthTest
 {
     public class LoginViewModelShould
     {
