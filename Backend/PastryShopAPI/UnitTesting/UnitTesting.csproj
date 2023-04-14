@@ -31,6 +31,7 @@
     <Folder Include="DataTest\" />
     <Folder Include="ExceptionsTest\" />
     <Folder Include="MigrationsTest\" />
+    <Folder Include="ModelsTest\CombosTest\" />
     <Folder Include="OthersTest\" />
     <Folder Include="ServicesTest\" />
   </ItemGroup>
