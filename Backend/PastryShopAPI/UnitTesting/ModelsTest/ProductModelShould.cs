@@ -10,10 +10,10 @@ namespace UnitTesting.ModelsTests
     public class ProductModelShould
     {
         [Fact]
-        public void ValidateProductSetId()
+        public void ValidateProductForm_SetId()
         {
             //Arrange
-            var product = new ProductModel
+            var product = new ProductFormModel
             {
                 Id = 1,
             };
@@ -26,26 +26,10 @@ namespace UnitTesting.ModelsTests
         }
 
         [Fact]
-        public void ValidateProductSetName()
-        {
-            //Arrange
-            ProductModel product = new ProductModel();
-            string name = "Pastel";
-            product.Name = name;
-
-            //Act
-            var getValue = product.Name;
-
-            //Assert
-            //Assert.Equal(product.Name, name);
-            Assert.Contains(getValue, product.Name);
-        }
-
-        [Fact]
         public void ValidateDescription()
         {
             //Arrange
-            ProductModel product = new ProductModel();
+            ProductFormModel product = new ProductFormModel();
             product.Description = "Sabores a eleccion con almendras de coco";
 
             //Act
@@ -60,7 +44,7 @@ namespace UnitTesting.ModelsTests
         public void ValidatePrice()
         {
             //Arrange
-            var product = new ProductModel
+            var product = new ProductFormModel
             {
                 Price = 5000,
             };
@@ -76,7 +60,7 @@ namespace UnitTesting.ModelsTests
         public void ValidateRaiting()
         {
             //Arrange
-            var product = new ProductModel
+            var product = new ProductFormModel
             {
                 Rating = 7,
             };
@@ -89,37 +73,22 @@ namespace UnitTesting.ModelsTests
         }
 
         [Fact]
-        public void ValidateImagePath()
+        public void ValidateImageUrl()
         {
             //Arrange
-            ProductModel product = new ProductModel();
-            product.ImagePath = "E:\\UCB - INGENIERIA EN SISTEMAS\\Semestre 1 - 2023\\Gestion de Calidad de Sistemas\\P2-PastryShop-UnitTesting\\Backend\\PastryShopAPI\\PastryShopAPI\\Resources\\Images\\0b43ff83-fdd9-49f7-8b19-9b4ed406925f.png";
+            ProductModel product = new ProductFormModel();
+            
 
             //Act
-            var listExtencionImage = new List<string>() { ".png" };
+            product.ImageUrl = "https://www.paulinacocina.net/wp-content/uploads/2022/04/selva-negra-receta-1.jpg";
 
             //Assert
-            //Assert.Contains(".png", product.ImagePath);
-            foreach (string extencion in listExtencionImage)
-            {
-                Assert.Contains(extencion, product.ImagePath);
-            }
-            //Assert.IsType<string>(product.ImagePath);
-        }
+            
+            
+            Assert.Contains("https://www.paulinacocina.net/wp-content/uploads/2022/04/selva-negra-receta-1.jpg", product.ImageUrl);
 
-        [Fact]
-        public void ValidateCategoryId()
-        {
-            //Arrange
-            ProductModel product = new ProductModel();
-            CategoryModel category = new CategoryModel();
-            category.Id = 1;
 
-            //Act
-            product.CategoryId = (long)category.Id;
 
-            //Assert
-            Assert.Equal(category.Id, product.CategoryId);
         }
     }
 }
