@@ -76,6 +76,11 @@ namespace PastryShopAPI.Services
             return _mapper.Map<CategoryModel>(category);
         }
 
+        public Task<CategoryModel> GetCategoryAsync(long categoryId, int categoryId1)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<CategoryModel> UpdateCategoryAsync(long categoryId, CategoryModel updatedCategory)
         {
             await ValidateCategoryAsync(categoryId);
@@ -89,6 +94,11 @@ namespace PastryShopAPI.Services
             }
 
             return updatedCategory;
+        }
+
+        Task ICategoriesService.GetCategoryAsync(long categoryId)
+        {
+            throw new NotImplementedException();
         }
 
         private async Task ValidateCategoryAsync(long categoryId)
