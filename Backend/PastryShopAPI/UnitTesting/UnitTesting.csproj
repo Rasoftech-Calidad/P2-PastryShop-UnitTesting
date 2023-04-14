@@ -28,6 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DataTest\" />
+    <Folder Include="ExceptionsTest\" />
+    <Folder Include="MigrationsTest\" />
+    <Folder Include="OthersTest\" />
+    <Folder Include="ServicesTest\" />
     <Folder Include="ModelsTest\CombosTest\" />
   </ItemGroup>
 
