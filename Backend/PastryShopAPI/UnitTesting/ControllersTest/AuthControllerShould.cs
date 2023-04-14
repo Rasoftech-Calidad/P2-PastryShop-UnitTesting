@@ -194,5 +194,92 @@ namespace UnitTesting.ControllersTest
         }
 
 
+        // CREATE USER-ROLE
+        [Fact]
+        public async Task CreateUserRoleAsync_WithValidData_ReturnsSuccessfullUserResponse()
+        {
+            // Arrange
+            var userResponse = new UserManagerResponse()
+            {
+                Message = "Role assigned",
+                IsSuccess = true,
+            };
+            var newUserRole = new CreateUserRoleViewModel()
+            {
+                UserId = "secure-user-id",
+                RoleId = "secure-role-id",
+            };
+            var expectedStatusCode = 200;
+            _userService.Setup(r => r.CreateUserRoleAsync(newUserRole)).ReturnsAsync(userResponse);
+            _authController = new AuthController(_userService.Object);
+
+            // Act
+            var createRoleResponse = await _authController.CreateUserRolenAsync(newUserRole);
+            var actualResponse = createRoleResponse as OkObjectResult;
+            var actualStatusCode = actualResponse?.StatusCode;
+            var actualValue = actualResponse?.Value as UserManagerResponse;
+
+            // Assert
+            Assert.Equal(expectedStatusCode, actualStatusCode);
+            Assert.Equal(userResponse.Message, actualValue?.Message);
+            Assert.True(actualValue?.IsSuccess);
+        }
+        
+        [Theory]
+        [InlineData("user has role already", false, "secure-user-id", "duplicated-role-id")]
+        [InlineData("user doesn't exist", false, "unknown-user-id", "good-role-id")]
+        [InlineData("role doesn't exist", false, "secure-user-id", "unknown-role-id")]
+        public async Task CreateUserRoleAsync_WithIncorrectIds_ReturnsUnSuccessfullUserResponse(string message, bool isSuccess, string userId, string roleId)
+        {
+            // Arrange
+            var userResponse = new UserManagerResponse()
+            {
+                Message = message,
+                IsSuccess = isSuccess,
+            };
+            var newUserRole = new CreateUserRoleViewModel()
+            {
+                UserId = userId,
+                RoleId = roleId,
+            };
+            var expectedStatusCode = 400;
+            _userService.Setup(r => r.CreateUserRoleAsync(newUserRole)).ReturnsAsync(userResponse);
+            _authController = new AuthController(_userService.Object);
+
+            // Act
+            var createRoleResponse = await _authController.CreateUserRolenAsync(newUserRole);
+            var actualResponse = createRoleResponse as BadRequestObjectResult;
+            var actualStatusCode = actualResponse?.StatusCode;
+            var actualValue = actualResponse?.Value as UserManagerResponse;
+
+            // Assert
+            Assert.Equal(expectedStatusCode, actualStatusCode);
+            Assert.Equal(userResponse.Message, actualValue?.Message);
+            Assert.False(actualValue?.IsSuccess);
+        }
+        
+        [Fact]
+        public async Task CreateUserRoleAsync_InvalidUserRoleData_ReturnsBadRequestErrorMessage()
+        {
+            // Arrange
+            var userResponse = "Some properties are not valid";
+            var expectedStatusCode = 400;
+            var newUserRole = new CreateUserRoleViewModel();
+            _authController = new AuthController(_userService.Object);
+
+            // Act
+            _authController.ModelState.AddModelError("Empty Properties", "error");
+            var registerResponse = await _authController.CreateUserRolenAsync(newUserRole);
+            var actualResponse = registerResponse as BadRequestObjectResult;
+            var actualStatusCode = actualResponse?.StatusCode;
+            var actualValue = actualResponse?.Value;
+
+            // Assert
+            Assert.Equal(expectedStatusCode, actualStatusCode);
+            Assert.Equal(userResponse, actualValue);
+        }
+
+
+
     }
 }
