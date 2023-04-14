@@ -43,6 +43,7 @@ namespace PastryShopAPI.Controllers
             }
         }
 
+        /*
         // api/teams/2
         //[Authorize(Roles = "Admin")]
         [HttpGet("{categoryId:long}")]
@@ -62,7 +63,7 @@ namespace PastryShopAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Something unexpected happened.");
             }
         }
-
+        */
         
 
         // CREATE CATEGORY WITH IMAGE FILE   api/categories/Form  using  FORM (no JSON)
