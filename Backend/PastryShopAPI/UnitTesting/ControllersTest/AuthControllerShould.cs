@@ -53,5 +53,36 @@ namespace UnitTesting.ControllersTest
         }
 
 
+        [Fact]
+        public async Task RegisterAsync_WithUnMatchingPasswords_ReturnsUnSuccessfullUserResponse()
+        {
+            // Arrange
+            var userResponse = new UserManagerResponse()
+            {
+                Message = "Confirm password doesn't match the password",
+                IsSuccess = false,
+            };
+            var newUser = new RegisterViewModel()
+            {
+                Email = "goodemail@gmail.com",
+                Password = "goodpassword",
+                ConfirmPassword = "unmatchingpassword",
+            };
+            _userService.Setup(r => r.RegisterUserAsync(newUser)).ReturnsAsync(userResponse);
+            _authController = new AuthController(_userService.Object);
+
+            // Act
+            var registerResponse = await _authController.RegisterAsync(newUser);
+            var actualResponse = registerResponse as BadRequestObjectResult;
+            var actualStatusCode = actualResponse?.StatusCode;
+            var actualValue = actualResponse?.Value as UserManagerResponse;
+            var expectedStatusCode = 400;
+
+            // Assert
+            Assert.Equal(expectedStatusCode, actualStatusCode);
+            Assert.Equal(userResponse.Message, actualValue?.Message);
+            Assert.False(actualValue?.IsSuccess);
+        }
+
     }
 }
